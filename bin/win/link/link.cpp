@@ -1,7 +1,4 @@
-// *************************************************************************************************
-//   Copyright (C) 2006 Tagger Inc.                                         All Rights Reserved.
 //   Contains code by Inv Softworks LLC, www.flexhex.com
-// *************************************************************************************************
 
 // Windows
 #define _WIN32_WINNT		0x0500		// Windows 2000 or later
