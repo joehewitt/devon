@@ -1,0 +1,298 @@
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    background-color: #FFFFFF;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+h1 {
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 7px 10px 6px 10px;
+    background: #D0D0D0 url(header1.gif) repeat-x bottom;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+h2 {
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 5px 10px;
+    background: #F6F6F6 url(header.gif) repeat-x bottom;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+a {
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:focus {
+    background-color: #FFFF33;
+}
+
+pre {
+    padding: 5px 10px;
+}
+
+/**************************************************************************************************/
+/* Progress */
+
+.progressBox {
+    position: relative;
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 5px 10px 5px 10px;
+}
+
+/**************************************************************************************************/
+/* Problems */
+
+.problemBox {
+    position: relative;
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 5px 150px 5px 34px;
+    background: LightYellow no-repeat 12px 6px;
+}
+
+.problem-error {
+    background-image: url(failureIcon.png);
+}
+
+.problem-assertion {
+    background-image: url(failureIcon.png);
+}
+
+.problem-exception {
+    background-image: url(exceptionIcon.png);
+}
+
+.problem-warning {
+    background-image: url(exceptionIcon.png);
+}
+
+.problem-note {
+    background-image: url(infoIcon-sm.png);
+}
+
+.problemTitle {
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    color: red;
+}
+
+.problemMessage {
+    font-family: Monaco, Courier, fixed;
+    font-size: 12px;
+    color: DarkGreen;
+}
+
+.problemLink {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
+
+.problemTable {
+    margin-top: 4px;
+    font: inherit;
+}
+
+.problemRowName {
+    padding: 3px 5px;
+    width: 45px;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    vertical-align: top;
+    text-align: right;
+}
+
+.problemRowValue {
+    padding: 3px 5px;
+    white-space: pre;
+    font-family: Monaco, Courier, fixed;
+    font-size: 12px;
+    color: DarkGreen;
+    vertical-align: top;
+}
+
+/**************************************************************************************************/
+/* Results */
+
+.resultBox {
+    position: relative;
+    margin: -1px -1px 1px -1px;
+    border: 1px solid #9D9D9D;
+    padding: 5px 10px;
+    background-color: #D0D0D0;
+    color: #000000;
+    font-weight: bold;
+}
+
+.result-success {
+    background-color: #009933;
+    color: #FFFFFF;
+}
+
+.result-failure {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+.result-crash {
+    background-color: #7FFF00;
+    color: #000000;
+}
+
+/**************************************************************************************************/
+/* Log Messages */
+
+.log {
+    position: relative;
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 4px 10px 4px 34px;
+    background: no-repeat 12px 5px;
+    font-family: Monaco, Courier, fixed;
+    font-size: 12px;
+}
+
+.log-note {
+    background-color: #f0f0f0;
+    background-image: url(infoIcon-sm.png);
+}
+
+.log-create {
+    background: cyan url(constructorIcon.png) no-repeat 3px 0;
+}
+
+.log-destroy {
+    background: cyan url(destructorIcon.png) no-repeat 2px 6px;
+}
+
+.log-reach {
+    background: yellow url(reachIcon.png) no-repeat 0 2px;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    color: DarkRed;
+}
+
+.log-warn {
+    background-color: #7FFF00;
+    background-image: url(exceptionIcon-sm.png);
+}
+
+.log-group {
+    margin-left: -2px;
+    margin-bottom: -2px;
+    border-left-width: 2px;
+    -moz-border-radius: 0 0 0 5px;
+    padding-left: 10px;
+    background: #E9E9E9 url(header2.gif) repeat-x bottom;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+.log-snippet {
+}
+
+.log-indent {
+    margin: -1px;
+    padding: 0 0 0 16px;
+    background-color: #9F9F9F;
+}
+
+/**************************************************************************************************/
+/* Variables */
+
+.variable {
+    position: relative;
+    margin: -1px;
+    border: 1px solid #9D9D9D;
+    padding: 4px 10px 4px 10px;
+    background: #F6F6F6 url(header.gif) repeat-x bottom;
+    font-family: Monaco, Courier, fixed;
+    font-size: 12px;
+}
+
+.variableTable {
+    font: inherit;
+}
+
+.variableName {
+    font-weight: bold;
+    background: url(variableIcon-sm.png) no-repeat;
+    padding-left: 20px;
+    padding-right: 10px;
+    vertical-align: top;
+}
+
+.variableValue {
+    color: DarkGreen;
+    white-space: pre;
+}
+
+/**************************************************************************************************/
+/* Table Format */
+
+.tableBox {
+/*    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 300px;*/
+}
+
+.logTable {
+    margin: -1px;
+    border-collapse: collapse;
+    border-top: 1px solid #9D9D9D;
+    border-bottom: 1px solid #9D9D9D;
+    width: 100%;
+    background-color: #FFFFFF;
+    font-family: Monaco, Courier, fixed;
+    font-size: 12px;
+    color: DarkGreen;
+}
+
+.logTable .rowType-head {
+    background-color: #CCCCCC;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    color: #000000;
+}
+
+.logTable td {
+    border-collapse: collapse;
+    border-left: 1px solid #9D9D9D;
+    border-bottom: 1px solid #9D9D9D;
+    padding: 1px 10px;
+}
+
+/**************************************************************************************************/
+/* Tree Format */
+
+.treeBox {
+    margin: 0;
+    background-color: #FFFFFF;
+}
+
+.treeItem {
+    padding: 3px 0 3px 18px;
+    list-style-type: none;
+    background: url(twistyClosed.png) no-repeat 0 1px;
+}
+
+.rawText {
+    margin: 0;
+    padding: 8px;
+    border: none;
+    background-color: #FFFFFF;
+}

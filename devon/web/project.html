@@ -1,0 +1,117 @@
+<html>
+<head>
+    <title><% request << project.name %> Project</title>
+
+    <script language="Javascript">var projectPath = "<% request << project.path %>";</script>
+    <script language="Javascript" src="/utils.js"></script>
+    <script language="Javascript" src="/project.js"></script>
+    <script language="Javascript" src="/api.js"></script>
+
+    <style type="text/css">@import "/theme/project.css";</style>
+</head>
+
+<body>
+<div id="toolbar">
+    <a class="projectTitle toolbarLink" target="process"><% request << project.name %></a>
+
+    <a id="build" class="toolbarLink" href="javascript: process('build');">Build</a>
+
+    <a id="buildTests" class="toolbarLink" href="javascript: process('buildTests');">Tests</a>
+    
+    <a class="toolbarLink" href="javascript: process('install');">Install</a>
+
+    <a class="toolbarLink" href="javascript: process('dist');">Dist</a>
+
+    <a class="toolbarLink" href="javascript: process('clean');">Clean</a>
+
+    <span class="separator">|</span>
+
+    <a id="runKill" class="toolbarLink" href="javascript: process('run');">Run</a>
+    <a id="debugKill" class="toolbarLink" href="javascript: process('debug');">Debug</a>
+
+    <span class="separator">|</span>
+
+    <a id="projectButton" class="toolbarLink toggled"
+       href="javascript: toggleBar('project');">Project</a>
+
+    <a id="browserButton" class="toolbarLink" href="javascript: toggleBar('browser');">Browser</a>
+    
+    <div id="toolbarRight">
+        <div onkeypress="onFindKeypress(event);">
+            <div id="quicksearchBox">
+                <img id="quicksearchIcon" onmousedown="toggleFindMenu();" src="/pixel.gif"/>
+                <input id="findBox" name="find" type="text" value="Find in project"
+                    onfocus="onFocusFind()" onblur="onBlurFind()"/>
+            </div>
+            <table id="findMenu">
+                <tr>
+                    <td class="caption">Replace</td>
+                    <td>
+                        <input id="replaceBox" type="text" class="textbox"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="caption">Types</td>
+                    <td>
+                        <input id="typesBox" type="text" value="*.*" class="textbox"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="caption">Case Sensitive</td>
+                    <td>
+                        <input type="checkbox" id="findCase" class="checkbox" checked="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right">
+                        <button onclick="submitFind(true); return false;">Replace All</button>
+                        <button onclick="submitFind(); return false;">Find All</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="hbox">
+<div id ="objectsBar" class="bar">
+</div>
+
+<div id="projectBar" class="bar">
+    <div id="tabBar">
+        <a id="projectsTab" class="tab selected" href="javascript: showTab('projects');">Projects</a>
+        <a id="testsTab" class="tab" href="javascript: showTab('tests');">Tests</a>
+    </div>
+    <div id="tabBox">
+        <div id="loadingBox" class="treeBox">
+            <img src="/theme/loading.gif"> Loading
+        </div>
+        <div id="projectsBox" class="treeBox selected"></div>
+        <div id="testsBox" class="treeBox"></div>
+    </div>
+</div>
+
+<div class="splitter bar" onmousedown="onMouseDownSplitter(event)"> </div>
+
+<div class="bar" flex="1">
+    <iframe id="process" style="width: 100%; height: 100%" name="process" src="about:blank"></iframe>
+</div>
+
+<div class="splitter bar" onmousedown="onMouseDownSplitter(event)" style="display: none"> </div>
+
+<div id="browserBar" class="bar" style="display: none">
+    <table id="urlBar">
+        <tr><td>Location:</td>
+        <td width="100%%"><input id="urlBox" name="url" type="text"
+                                  onkeypress="onURLBarKeyPress(event);"/></td>
+        </tr>
+    </table>
+    
+    <iframe id="browser" name="browser" src="about:blank"></iframe>
+</div>
+</div>
+
+<script>initialize();</script>
+</body>
+</html>

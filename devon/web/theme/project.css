@@ -1,0 +1,329 @@
+
+html, body {
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+.toolbarLink {
+    position: relative;
+    margin: 0 2px;
+    padding: 3px 4px;
+    text-decoration: none;
+    -moz-outline: none !important;
+    color: #000000;
+}
+
+.toolbarLink:hover {
+    -moz-border-radius: 3px;
+    background-color: #AAAAAA;
+    color: #FFFFFF;
+}
+
+.toolbarLink.toggled{ 
+    font-weight: bold;
+}
+
+/**************************************************************************************************/
+
+#toolbar {
+    padding: 7px 8px 2px 8px;
+    height: 25px;
+    background: #F6F6F6 url(toolbar.gif) repeat-x bottom;
+    font-size: 14px;
+}
+
+#toolbarRight {
+    z-index: 1000;
+    position: absolute;
+    padding: 2px;
+    top: 3px;
+    right: 8px;
+}
+
+.projectTitle {
+    font-weight: bold;
+}
+
+.separator {
+    color: #AAAAAA;
+}
+
+.textbox {
+    width: 200px;
+    padding: 2px;
+    border: 1px solid #9C9C9C;
+    font-size: 12px;
+}
+
+.textbox[disabled] {
+    background-color: #CCCCCC;
+    color: #888888;
+}
+
+/**************************************************************************************************/
+
+#quicksearchBox {
+    background: #FFFFFF url(searchIcon.gif) no-repeat 3px 2px;
+    border: 1px solid #9C9C9C;
+    padding: 1px 0 2px 0;
+}
+
+#quicksearchIcon {
+    cursor: pointer;
+    width: 23px;
+    height: 14px;
+}
+
+#findBox {
+    border: none;
+    width: 250px;    
+    background: transparent;
+}
+
+#findBox:focus {
+    outline: none !important;
+}
+
+#findMenu {
+    display: none;
+    position: absolute;
+    top: 29px;
+    right: 10px;
+    width: 350px;
+    padding: 5px;
+    background: #EEEEEE;
+    border: 1px solid #9C9C9C;
+}
+
+.caption {
+    width: 100px;
+    text-align: right;
+    font-size: 12px;
+    color: #444444;
+}
+
+/**************************************************************************************************/
+
+.bar {
+    position: absolute;
+    top: 34px;
+    bottom: 0;
+}
+
+#process {
+    border: none;
+}
+
+/**************************************************************************************************/
+
+#browserBar {
+    width: 300px;
+}
+
+#browser {
+    position: absolute;
+    top: 26px;
+    bottom: 0;
+    width: 100%;
+    margin-left: -1px;
+    border: none;
+    border-left: 1px solid #9C9C9C;
+}
+
+#urlBar {
+    margin-left: -1px;
+    padding: 1px 0 0 4px;
+    border-left: 1px solid #9C9C9C;
+    height: 26px;
+    background: url(toolbar.gif) repeat-x bottom;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+#urlBox {
+    width: 100%;
+    padding: 1px 2px;
+    border: 1px solid #AAAAAA;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/**************************************************************************************************/
+
+#projectBar {
+    width: 230px;
+}
+
+#tabBar {
+    background: #8EA0B7 url(tabBar.gif) repeat-x bottom;
+    height: 31px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tab {
+    position: absolute;
+    padding-top: 9px;
+    top:0;
+    left: 0;
+    width: 69px;
+    height: 23px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #000000;
+    -moz-outline: none !important;
+    -moz-user-select: none;
+}
+
+.tab.selected {
+    background: url(tab.gif) no-repeat;
+    font-weight: bold;
+}
+
+.treeBox {
+    display: none;
+    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    width: 100%;
+}
+
+.treeBox.selected {
+    display: block;
+}
+
+#projectsTab {
+    left: 50px;
+}
+
+#testsTab {
+    left: 120px;
+}
+
+#loadingBox {
+    padding: 8px;
+}
+
+.splitter {
+    z-index: 99999;
+    cursor: col-resize;
+    top: 33px;
+    width: 6px;
+    border-left: 1px solid #9C9C9C;
+    border-right: 1px solid #9C9C9C;
+    background-color: #EFEFEF;
+}
+
+/**************************************************************************************************/
+
+.treeBox {
+    -moz-user-select: none;
+}
+
+.treeHeader {
+    margin: 0 0 -4px 0;
+    background: #F6F6F6 url(header.gif) repeat-x bottom !important;
+    border-top: 1px solid #9C9C9C;
+    border-bottom: 1px solid #9C9C9C;
+    padding: 3px 5px;
+    list-style-image: none;
+}
+
+.treeBody {
+    padding: 0 0 3px 4px;
+}
+
+.treeHeader .treeItemLink {
+    background: transparent;
+    font-weight: bold;
+}
+
+.treeHeader.selected {
+    background: #7D92E0 url(selection.gif) repeat-x bottom !important;
+    border-color: #312CB7;
+    color: #FFFFFF;
+}
+
+.treeItem {
+    margin: 0;
+    padding: 6px 0 0 0px;
+    list-style-type: none;
+}
+
+.treeItemBox {
+    padding: 3px;
+    border: 1px solid transparent;
+}
+
+.treeItem.selected .treeItemBox {
+    background: #7D92E0 url(selection.gif) repeat-x bottom;
+    border-color: #312CB7;
+    color: #FFFFFF;
+}
+
+.treeList {
+    margin: 0;
+    padding: 0 0 0 18px;
+}
+
+.treeItemLink {
+    background: url(emptyIcon-sm.png) no-repeat 0 1px;
+    padding-left: 18px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.treeItemLink:focus {
+    -moz-outline: 2px solid black;
+}
+
+.treeItemLink.treeItemType-Inspector,
+.treeItemLink.treeItemType-Exe {
+    background-image: url(inspectorIcon.png);
+}
+
+.treeItemLink.treeItemType-Project {
+    background-image: url(projectIcon.png);
+}
+
+/**************************************************************************************************/
+
+.treeItem[testStatus="skip"] .treeItemLink {
+    background-image: url(skipIcon-sm.png);
+}
+
+.treeItem[testStatus="passed"] .treeItemLink,
+.treeItem[testStatus="allPassed"] .treeItemLink {
+    background-image: url(successIcon-sm.png);
+}
+
+.treeItem[testStatus="failed"] .treeItemLink,
+.treeItem[testStatus="someFailed"] .treeItemLink {
+    background-image: url(failureIcon-sm.png);
+}
+
+.treeItem[testStatus="exception"] .treeItemLink {
+    background-image: url(exceptionIcon-sm.png);
+}
+
+.treeItem.running .treeItemLink {
+    background-image: url(loading.gif) !important;
+}
+
+.treeItemCheckbox {
+    margin-bottom: 3px;
+}
+
+.treeItemCheckbox .treeItemLink {
+    background: none;
+    padding-left: 0;
+}

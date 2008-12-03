@@ -1,0 +1,26 @@
+
+name = "devontest"
+description = "Devon Testing Framework"
+version = "0.1"
+
+build = Compile() >> LinkStaticLib()
+
+# **************************************************************************************************
+# Build
+
+exports = { "include": "Devon" }
+
+# **************************************************************************************************
+# Installation
+
+if system == "darwin":
+    installPaths = {
+        "/usr/local/include/devon": exports.keys(),
+        "/usr/local/lib/devon": "%(buildTarget)s"
+    }
+    
+elif system == "win32":
+    installPaths = {
+        "c:\\Program Files\\Devon\\include": exports.keys(),
+        "c:\\Program Files\\Devon\\lib": "%(buildTarget)s"
+    }

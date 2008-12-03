@@ -1,0 +1,9 @@
+
+description = "Devon"
+version = "0.1"
+
+build = PythonModules()
+
+pythonPaths = [
+    "../.."
+]

@@ -1,0 +1,53 @@
+
+name = "Devon"
+description = "Devon development environment."
+
+if system == "win32" or system == "darwin":
+    buildPath = "build"
+else:
+    buildPath = "/build"
+
+# **************************************************************************************************
+# Installation
+
+if system == "darwin":
+    installPaths = {
+        "/Library/Application Support/Devon": (
+            "web"
+        ),
+        
+        "/Library/Application Support/Devon/bin": (
+            "bin/mac/m",
+            "bin/mac/mi",
+            "bin/mac/c",
+            "bin/mac/r",
+            "bin/*.py",
+            "bin/*.scpt"
+        )
+    }
+
+elif system == "win32":
+    installPaths = {
+        "c:\\Program Files\\Devon": (
+            "web"
+        ),
+        "c:\\Program Files\\Devon\\bin": (
+            "bin/win/*.bat",
+            "bin/win/editMSVC.py",
+            "bin/*.py",
+            "bin/*.vsmacros",
+        )
+    }
+else:
+    installPaths = {
+        "/devon": (
+            "web"
+        ),
+        "/devon/bin": (
+            "bin/unix/m",
+            "bin/unix/mi",
+            "bin/unix/c",
+            "bin/unix/r",
+            "bin/*.py"
+        )
+    }

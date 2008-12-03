@@ -1,0 +1,45 @@
+<html>
+<head>
+<title><% request << request.path %></title>
+
+<style type="text/css">@import "/theme/wiki.css";</style>
+
+<script language="Javascript">var projectPath = "<% request << project.path %>";</script>
+
+<script language="Javascript" src="/utils.js"></script>
+<script language="Javascript" src="/api.js"></script>
+
+<script language="Javascript">
+
+function onClickBody(event)
+{
+    if (event.altKey && event.target.hasAttribute("path"))
+    {
+        edit(event.target.getAttribute("path"), event.target.getAttribute("lineNo"));
+        event.stopPropagation();
+    }
+}
+
+</script>
+    
+</head>
+<body onclick="onClickBody(event)">
+
+<div id="head">
+<h1 class="pageTitle"><% request << request.path.replace("/", " > ") %></h1>
+
+<a id="editButton" href="javascript: edit('<%
+        request << project.getDocumentPath(request.path).replace("\\", "/")
+    %>');" rowType="primary">Edit</a></div>
+
+<div id="content">
+<div id="contentInner">
+
+
+<% renderPage(request) %>
+
+</div>
+</div>
+
+</body>
+</html>

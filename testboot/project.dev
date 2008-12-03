@@ -1,0 +1,19 @@
+
+name = "devonboot"
+description = "Devon Testing Bootstrap"
+version = "0.1"
+
+build = Compile() >> LinkStaticLib()
+
+# **************************************************************************************************
+# Installation
+
+if system == "darwin":
+    installPaths = {
+        "/usr/local/lib/devon": "%(buildTarget)s"
+    }
+    
+elif system == "win32":
+    installPaths = {
+        "c:\\Program Files\\Devon\\lib": "%(buildTarget)s"
+    }

@@ -1,0 +1,172 @@
+
+body {
+    margin: 0;
+    background: #EEEEEE url(headerBg.gif) repeat-x;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 14px;
+    line-height: 1.5em;
+    text-align: center
+}
+
+h1 {
+    font-size: 24px;
+    padding-bottom: 2px;
+    border-bottom: 1px dotted #BBBBBB;
+    letter-spacing: -1.5px;
+}
+
+h2 {
+    letter-spacing: -1px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #444444;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0000FF;
+    text-decoration: underline;
+}
+
+#head {
+    position: relative;
+    margin: 0 auto;
+    width: 50em;
+    height: 44px;
+    background: #F4F4F4 url(headerBg2.gif) repeat-x top;
+    border-bottom: 1px solid #E8E8E8;
+    color: #888888;
+    text-align: left;
+}
+
+h1.pageTitle {
+    margin: 0;
+    padding: 15px 0 0 35px;
+    border: 0;
+    text-transform: uppercase;
+}
+
+#content {
+    position: relative;
+    margin: 0 auto;
+    padding-left: 6px;
+    width: 50em;
+    background: #FFFFFF url(pageBgLeft.gif) repeat-y;
+    text-align: left;
+}
+
+#contentInner {
+    padding: 20px 35px;
+    background: url(pageBgRight.gif) repeat-y 100% 100%;
+}
+
+#editButton {
+    position: absolute;
+    bottom: 4px;
+    right: 30px;
+    font-size: 18px;
+    color: #888888;
+}
+
+#editButton:hover {
+    color: #0000FF;
+}
+
+pre,
+code,
+.code {
+    font-family: Monaco, Courier, fixed-width;
+    font-size: 12px;
+    color: DarkGreen;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.strike { 
+    text-decoration: line-through;
+}
+
+.highlight {
+    background-color: lightblue;
+}
+
+.bullet-x-sm {
+    list-style-type: none;
+    background: url(successIcon-sm.png) no-repeat 0 2px;
+    margin-left: -18px;
+    padding-left: 18px;
+}
+
+.bullet-x-lg {
+    list-style-type: none;
+    background: url(exceptionIcon-sm.png) no-repeat 0 2px;
+    margin-left: -18px;
+    padding-left: 18px;
+}
+
+.pageLink {
+    
+}
+
+.tagBox {
+    border-top: 1px solid #AAAAAA;
+    margin-top: 30px;
+    padding: 30px;
+    height: 150px;
+    text-align: center;
+}
+
+.tagBox .tagLink {
+    float: left;
+    width: 140px;
+    padding: 1px 0;
+}
+
+.tagLink {
+    color: darkgreen;
+    font-family: Monaco, Courier, fixed;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.tagSize1 {
+    font-size: smaller;
+}
+
+.tagSize2 {
+    font-size: medium;
+}
+
+.tagSize3 {
+    font-size: x-large;
+}
+
+.tagSize3 {
+    font-size: xx-large;
+}
+
+.pageLink {
+    font-size: 1.3em;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.wikiLinkedImage {
+    float: right;
+    border: 5px solid #AAAAAA;
+    -moz-border-radius: 3px;
+}
+
+.wikiLinkedImage:hover {
+    border-color: #0000FF;
+}
