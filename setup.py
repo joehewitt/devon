@@ -1,7 +1,8 @@
 
-import os.path
+import os.path, sys
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
+from distutils.command.install_data import install_data
 
 # **************************************************************************************************
 
@@ -27,6 +28,18 @@ for dirpath, dirnames, filenames in os.walk(devon_dir):
 
 # **************************************************************************************************
 
+class darwin_install_data(install_data): 
+    def finalize_options (self): 
+        self.set_undefined_options('install',  ('install_lib', 'install_dir')) 
+        install_data.finalize_options(self) 
+
+if sys.platform == "darwin": 
+    cmdclasses = {'install_data': darwin_install_data } 
+else: 
+    cmdclasses = {'install_data': install_data } 
+
+# **************************************************************************************************
+
 setup(
     name = "Devon",
     version = "0.1",
@@ -36,6 +49,7 @@ setup(
     author = "Joe Hewitt",
     author_email = "joe@joehewitt.com",
     
+    cmdclass = cmdclasses,
     packages = packages,
     data_files = data_files
 )
