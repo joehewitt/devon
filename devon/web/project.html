@@ -12,8 +12,9 @@
 
 <body>
 <div id="toolbar">
+    <!--
     <a class="projectTitle toolbarLink" target="process"><% request << project.name %></a>
-
+    -->
     <a id="build" class="toolbarLink" href="javascript: process('build');">Build</a>
 
     <a id="buildTests" class="toolbarLink" href="javascript: process('buildTests');">Tests</a>
@@ -28,14 +29,15 @@
 
     <a id="runKill" class="toolbarLink" href="javascript: process('run');">Run</a>
     <a id="debugKill" class="toolbarLink" href="javascript: process('debug');">Debug</a>
-
+    
+    <!--
     <span class="separator">|</span>
 
     <a id="projectButton" class="toolbarLink toggled"
        href="javascript: toggleBar('project');">Project</a>
 
     <a id="browserButton" class="toolbarLink" href="javascript: toggleBar('browser');">Browser</a>
-    
+  -->
     <div id="toolbarRight">
         <div onkeypress="onFindKeypress(event);">
             <div id="quicksearchBox">
@@ -85,7 +87,7 @@
     </div>
     <div id="tabBox">
         <div id="loadingBox" class="treeBox">
-            <img src="/theme/loading.gif"> Loading
+            <img src="/theme/loading.gif"> Loading...
         </div>
         <div id="projectsBox" class="treeBox selected"></div>
         <div id="testsBox" class="treeBox"></div>

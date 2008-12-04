@@ -85,9 +85,10 @@ function scrollToBottom()
 {
     // Only auto-scroll if we have grown past our previous height, to prevent from fighting
     // against the user if they try to scroll up
-    if (window.scrollMaxY > gScrollMax)
+    //console.log(document.body.scrollHeight + " > " + gScrollMax);
+    if (document.body.scrollHeight > gScrollMax)
     {
-        gScrollMax = window.scrollMaxY;
-        window.scrollTo(window.scrollX, window.scrollMaxY);
+        gScrollMax = document.body.scrollHeight;
+        window.scrollTo(window.scrollX, document.body.scrollHeight);
     }
 }

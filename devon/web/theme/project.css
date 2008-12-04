@@ -11,30 +11,37 @@ body {
 
 .toolbarLink {
     position: relative;
-    margin: 0 2px;
-    padding: 3px 4px;
+    padding: 3px 6px;
     text-decoration: none;
     -moz-outline: none !important;
-    color: #000000;
-}
-
-.toolbarLink:hover {
-    -moz-border-radius: 3px;
-    background-color: #AAAAAA;
-    color: #FFFFFF;
-}
-
-.toolbarLink.toggled{ 
+    outline: none !important;
+    color: #222;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
     font-weight: bold;
+}
+
+.toolbarLink:hover,
+.toolbarLink.toggled { 
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: #626262;
+    color: #FFFFFF;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.toolbarLink.toggled { 
+    cursor: default;
 }
 
 /**************************************************************************************************/
 
 #toolbar {
-    padding: 7px 8px 2px 8px;
-    height: 25px;
-    background: #F6F6F6 url(toolbar.gif) repeat-x bottom;
-    font-size: 14px;
+    border-top: 1px solid #c0c0c0;
+    border-bottom: 1px solid #404040;
+    padding: 7px 8px 5px 8px;
+    height: 17px;
+    background: rgb(150, 150, 150);
+    font-size: 12px; 
 }
 
 #toolbarRight {
@@ -68,36 +75,50 @@ body {
 /**************************************************************************************************/
 
 #quicksearchBox {
-    background: #FFFFFF url(searchIcon.gif) no-repeat 3px 2px;
-    border: 1px solid #9C9C9C;
-    padding: 1px 0 2px 0;
+    position: relative;
+    top: -3px;
+    -webkit-appearance: searchfield;
 }
 
 #quicksearchIcon {
     cursor: pointer;
+    position: relative;
+    top: 4px;
+    left: 4px;
     width: 23px;
-    height: 14px;
+    height: 17px;
+    background: url(search.png) no-repeat;
 }
 
 #findBox {
+    position: relative;
+    top: -2px;
     border: none;
     width: 250px;    
     background: transparent;
+    font-size: 12px;
+    color: gray;
+    height: 20px;
 }
 
 #findBox:focus {
     outline: none !important;
+    color: black;
 }
 
 #findMenu {
     display: none;
     position: absolute;
-    top: 29px;
-    right: 10px;
+    top: 28px;
+    right: 0px;
     width: 350px;
     padding: 5px;
-    background: #EEEEEE;
-    border: 1px solid #9C9C9C;
+    background: #F0F0F0;
+    border: 1px solid #AAA;
+    border-top: none;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .caption {
@@ -111,7 +132,7 @@ body {
 
 .bar {
     position: absolute;
-    top: 34px;
+    top: 31px;
     bottom: 0;
 }
 
@@ -127,7 +148,7 @@ body {
 
 #browser {
     position: absolute;
-    top: 26px;
+    top: 24px;
     bottom: 0;
     width: 100%;
     margin-left: -1px;
@@ -160,29 +181,48 @@ body {
 }
 
 #tabBar {
-    background: #8EA0B7 url(tabBar.gif) repeat-x bottom;
-    height: 31px;
+    background: #D0D0D0 url(header1.gif) repeat-x bottom;
+    border-bottom: 1px solid #404040;
+    height: 30px;
     text-align: center;
     white-space: nowrap;
 }
 
 .tab {
     position: absolute;
-    padding-top: 9px;
+    margin: 5px 0;
+    padding: 2px 0;
     top:0;
     left: 0;
-    width: 69px;
-    height: 23px;
+    width: 65px;
     font-size: 12px;
     text-decoration: none;
     color: #000000;
     -moz-outline: none !important;
     -moz-user-select: none;
+    border: 1px solid transparent;
+}
+
+.tab:hover:active {
+    background: #CCC;
+    -webkit-border-radius: 10px;
 }
 
 .tab.selected {
-    background: url(tab.gif) no-repeat;
+    background: #8e8e8e;
+    -webkit-border-radius: 10px;
+    border-top: 1px solid #777;
     font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+#projectsTab {
+    left: 40px;
+}
+
+#testsTab {
+    left: 110px;
 }
 
 .treeBox {
@@ -191,7 +231,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
-    top: 30px;
+    top: 31px;
     bottom: 0;
     width: 100%;
 }
@@ -200,81 +240,108 @@ body {
     display: block;
 }
 
-#projectsTab {
-    left: 50px;
-}
-
-#testsTab {
-    left: 120px;
-}
-
 #loadingBox {
+    -webkit-box-sizing: border-box;
+    color: rgb(96, 96, 96);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
+    font-size: 17px;
+    font-weight: bold;
     padding: 8px;
+    text-align: center;
+    padding-top: 150px;
 }
 
 .splitter {
     z-index: 99999;
     cursor: col-resize;
-    top: 33px;
-    width: 6px;
-    border-left: 1px solid #9C9C9C;
-    border-right: 1px solid #9C9C9C;
-    background-color: #EFEFEF;
+    top: 31px;
+    width: 0px;
+    border-right: 1px solid #404040;
+    background: rgb(208, 215, 227);
 }
 
 /**************************************************************************************************/
 
 .treeBox {
     -moz-user-select: none;
-}
-
-.treeHeader {
-    margin: 0 0 -4px 0;
-    background: #F6F6F6 url(header.gif) repeat-x bottom !important;
-    border-top: 1px solid #9C9C9C;
-    border-bottom: 1px solid #9C9C9C;
-    padding: 3px 5px;
-    list-style-image: none;
+    -webkit-user-select: none;
+    font-size: 11px;
+    background: rgb(208, 215, 227);
 }
 
 .treeBody {
-    padding: 0 0 3px 4px;
+    margin-bottom: 4px;
+    clear: both;
+}
+
+.treeHeader {
+    margin: 4px 0 0 0;
+    list-style-image: none;
+    text-transform: uppercase;
+    color: rgb(96, 96, 96);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    clear: both;
+}
+
+.treeHeader .treeItemBox {
+    padding-left: 4px;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+.treeHeader.selected .treeItemBox {
+    background: #7D92E0 url(selection.gif) repeat-x bottom;
+    border-color: rgb(56, 128, 207);
+    color: #FFFFFF;
+    text-shadow: none;
+    -webkit-border-radius: 0;
 }
 
 .treeHeader .treeItemLink {
+    display: block;
+    padding-left: 4px;
     background: transparent;
-    font-weight: bold;
-}
-
-.treeHeader.selected {
-    background: #7D92E0 url(selection.gif) repeat-x bottom !important;
-    border-color: #312CB7;
-    color: #FFFFFF;
 }
 
 .treeItem {
-    margin: 0;
-    padding: 6px 0 0 0px;
     list-style-type: none;
+    clear: both;
 }
 
 .treeItemBox {
-    padding: 3px;
+    display: block;
+    padding: 3px 4px 3px 14px;
     border: 1px solid transparent;
 }
 
 .treeItem.selected .treeItemBox {
     background: #7D92E0 url(selection.gif) repeat-x bottom;
-    border-color: #312CB7;
+    border-color: rgb(56, 128, 207);
     color: #FFFFFF;
 }
 
 .treeList {
     margin: 0;
-    padding: 0 0 0 18px;
+    padding: 0;
+}
+
+.treeBox > .treeBody > .treeList > .treeItem > .treeItemBox {
+    padding-left: 36px;
+}
+
+.treeBox > .treeBody > .treeList > .treeList > .treeItem > .treeItemBox {
+    padding-left: 54px;
+}
+
+.treeBox > .treeBody > .treeList > .treeList > .treeList > .treeItem > .treeItemBox {
+    padding-left: 72px;
 }
 
 .treeItemLink {
+    cursor: default;
+    display: block;
     background: url(emptyIcon-sm.png) no-repeat 0 1px;
     padding-left: 18px;
     color: inherit;

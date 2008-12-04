@@ -23,7 +23,7 @@ h2 {
     margin: -1px;
     border: 1px solid #9D9D9D;
     padding: 5px 10px;
-    background: #F6F6F6 url(header.gif) repeat-x bottom;
+    background: #F6F6F6 url(headerBg2.gif) repeat-x bottom;
     font-size: 12px;
     font-weight: bold;
 }
@@ -281,7 +281,6 @@ pre {
 
 .treeBox {
     margin: 0;
-    background-color: #FFFFFF;
 }
 
 .treeItem {

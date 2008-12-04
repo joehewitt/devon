@@ -1,4 +1,6 @@
 
+var focusedLink = null;
+
 function process(processName)
 {
     if ((processName == "build" || processName == "buildTests") && building)
@@ -101,12 +103,12 @@ function findNextLink()
     function criteria(node)
     {
         return node.nodeType == 1
-            && node.nodeName == "A"
+            && node.nodeName.toUpperCase() == "A"
             && node.getAttribute("rowType") == "primary";
     }
     
-    var focusedLink = processDoc.defaultView.getSelection().focusNode;
-    
+    //var focusedLink = processDoc.defaultView.getSelection().focusNode;
+
     var currentLink = focusedLink && focusedLink.ownerDocument == processDoc
             && criteria(focusedLink)
         ? focusedLink.firstChild

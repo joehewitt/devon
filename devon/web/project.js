@@ -37,7 +37,7 @@ function initialize()
     document.getElementById("tabBox").addEventListener("click", onClickTabBox, false);
 
     showTab("projects");
-    layoutHBox();
+    setTimeout(layoutHBox, 100);
     
     setTimeout(listenForEvents, 100);
 }
