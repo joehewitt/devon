@@ -1,0 +1,4 @@
+#! /usr/bin/env python
+
+import devon.web
+devon.web.serve()

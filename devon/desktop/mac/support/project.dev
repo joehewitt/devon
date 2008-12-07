@@ -1,0 +1,6 @@
+
+name = "_devon_macsupport"
+build = Compile() >> LinkPythonModule()
+
+linkerFlags = "-undefined dynamic_lookup"
+ignoreFrameworks = ["Python"]

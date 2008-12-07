@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary xmlns:xi="http://www.w3.org/2003/XInclude">
+	<suite name="Devon" code="DEVO" description="Devon verbs and objects">
+		<class name="Devon" code="DEVO" description="the Devon application" plural="devon">
+			<cocoa class="DevonApp"/>
+			<responds-to command="build">
+				<cocoa method="buildAppleEvent:"/>
+			</responds-to>
+			<responds-to command="clean">
+				<cocoa method="cleanAppleEvent:"/>
+			</responds-to>
+			<responds-to command="run">
+				<cocoa method="runAppleEvent:"/>
+			</responds-to>
+			<responds-to command="find">
+				<cocoa method="findAppleEvent:"/>
+			</responds-to>
+			<responds-to command="find next">
+				<cocoa method="findNextAppleEvent:"/>
+			</responds-to>
+		</class>
+
+		<command name="build" code="DEVOBULD" description="builds the project">
+			<parameter name="tests" code="TSTS" type="boolean" optional="yes" 
+				description="build tests">
+				<cocoa key="Tests"/>
+			</parameter>
+		</command>
+
+		<command name="clean" code="DEVOCLEN" description="builds the project">
+		</command>
+
+		<command name="run" code="DEVORUNN" description="runs the project">
+			<parameter name="debug" code="DEBG" type="boolean" optional="yes" 
+				description="run in debugger">
+				<cocoa key="Debug"/>
+			</parameter>
+		</command>
+
+		<command name="find" code="DEVOFIND" description="find text in the project">
+			<direct-parameter description="the text to find">
+				<type type="text"/>
+			</direct-parameter>
+
+			<parameter name="case sensitive" code="CASE" type="boolean" optional="yes" 
+				description="case sensitive find">
+				<cocoa key="CaseSensitive"/>
+			</parameter>
+		</command>
+
+		<command name="find next" code="DEVONEXT" description="opens the next find result">
+		</command>
+    </suite>
+</dictionary>
