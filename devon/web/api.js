@@ -8,7 +8,7 @@ function process(processName)
     else if (processName == "run" && runningPid)
         cancelRun();
     else if (processName == "dist")
-        loadURL("/build:" + getSelectedProjectPath() + "?config=release");
+        loadURL("./build:" + getSelectedProjectPath() + "?config=release");
     else if (processName == "run")
         run(false);
     else if (processName == "debug")
@@ -16,12 +16,12 @@ function process(processName)
     else if (processName == "browse")
         reloadBrowser();
     else
-        loadURL("/" + processName + ":" + getSelectedProjectPath());
+        loadURL("./" + processName + ":" + getSelectedProjectPath());
 }
 
 function edit(basePath, filePath, line, col1, col2)
 {
-    var url = "/edit:" + filePath.replace("../", "", "g");
+    var url = "./edit:" + filePath.replace("../", "", "g");
     if (line != undefined)
     {
         url += "?line=" + line + "&basePath=" + basePath;
@@ -37,7 +37,7 @@ function edit(basePath, filePath, line, col1, col2)
 
 function shutdown()
 {
-    var url = "/shutdown:";
+    var url = "./shutdown:";
     var req = createXMLHttpRequest();
     req.open("GET", url, true);
     req.send("");
@@ -48,7 +48,7 @@ function cancelBuild()
     if (!building)
         return;
 
-    var url = "/buildStop:";
+    var url = "./buildStop:";
     var req = createXMLHttpRequest();
     req.open("GET", url, true);
     req.send("");
@@ -60,10 +60,10 @@ function run(debugMode)
 
     var testId = getSelectedTestId();
     if (testId)
-        loadURL("/run:" + projectPath + "?target=" + testId + "&disabledLogs=" + 
+        loadURL("./run:" + projectPath + "?target=" + testId + "&disabledLogs=" + 
             "&debugger=" + debugMode);
     else
-        loadURL("/run:" + projectPath + "?disabledLogs=" +
+        loadURL("./run:" + projectPath + "?disabledLogs=" +
             "&debugger=" + debugMode);
 }
 
@@ -72,7 +72,7 @@ function cancelRun()
     if (!runningPid)
         return;
 
-    var url = "/kill:?pid=" + runningPid;
+    var url = "./kill:?pid=" + runningPid;
     var req = createXMLHttpRequest();
     req.open("GET", url, true);
     req.send("");
@@ -145,4 +145,53 @@ function printfire()
         ev.initEvent("printfire", false, true);
         dispatchEvent(ev);
     }
+}
+
+if (window.devon) {
+    //devon.registerHotKey("cmd+shift+e", function() { process("build"); });
+
+    devon.registerCommand("build", function(param, args) {
+        var tests = false;
+        
+        for (var i = 0; i < args.length; i += 2) {
+            if (args[i] == "Tests" && args[i+1]) {
+                tests = true;
+            }
+        }
+        
+        if (tests) {
+            process("buildTests");
+        } else {
+            process("build");
+        }
+    });
+
+    devon.registerCommand("clean", function(param, args) {
+        process("clean");
+    });
+
+    devon.registerCommand("run", function(param, args) {
+        var debug = false;
+        
+        for (var i = 0; i < args.length; i += 2) {
+            if (args[i] == "Debug" && args[i+1]) {
+                debug = true;
+            }
+        }
+
+        if (debug) {
+            process("debug");
+        } else {
+            process("run");
+        }
+    });
+
+    devon.registerCommand("find", function(param, args) {
+        doFind(param);
+        devon.activate();
+    });
+
+    devon.registerCommand("findNext", function(param, args) {
+        findNextLink();
+    });
 }

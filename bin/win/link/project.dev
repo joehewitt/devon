@@ -1,5 +1,0 @@
-name = "ln"
-build = Compile() >> LinkExecutable()
-
-# XXXblake This project should be independent of Devon.
-# XXXblake Need to ensure that this is in the path.

@@ -3,17 +3,14 @@ import os.path, sys
 
 # **************************************************************************************************
 
-srcPath = "/src/vines/devon"
+srcPath = os.environ.get("DEVON_SRCPATH")
 webPath = os.path.abspath(os.path.join(os.path.dirname(__file__), "web"))
 
-# XXXblake Shouldn't have to duplicate here what's in devon/project.dev
 if sys.platform == "darwin":
-    appPath = "/Library/Application Support/Devon"
-    binPath = "%s/bin" % appPath
+    userPath = os.path.expanduser("~/Library/Application Support/Devon")
     
 elif sys.platform == "win32":
-    appPath = "c:\\Progra~1\\Devon"
-    binPath = "%s\\bin" % appPath
+    userPath = "c:\\Progra~1\\Devon"
 
     # On Windows, wrap os.path.join to use forward rather than back slashes. The os module does
     # support a "sep" variable that identifies this per-platform, but stupid os.path.join hardcodes
@@ -33,5 +30,5 @@ elif sys.platform == "win32":
     os.symlink = symlink
 
 else:
-    appPath = "/devon"
-    binPath = "%s/bin" % appPath
+    userPath = os.path.expanduser("~/.devon")
+

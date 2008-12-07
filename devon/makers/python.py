@@ -62,8 +62,13 @@ class LinkPythonModule(link.LinkDynamicLib):
         if sys.platform == "win32":
             pyDirPath = os.path.join(sys.prefix, 'lib', 'site-packages')
         else:
-            pyDirPath = os.path.join(sys.prefix, 'lib', \
-                                     'python' + sys.version[:3], 'site-packages')
+            # This used to be the place where site-packages was before Leopard
+            # pyDirPath = os.path.join(sys.prefix, 'lib', \
+            #                          'python' + sys.version[:3], 'site-packages')
+
+            # As of Leopard, they are now stored here
+            pyDirPath = os.path.join('/Library/Python', sys.version[:3], 'site-packages')
+
 
         targetPath = project.getBuildTarget()
         newTargetPath = os.path.join(pyDirPath, os.path.basename(targetPath))

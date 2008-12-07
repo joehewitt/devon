@@ -71,7 +71,7 @@ def shutdownProjects():
 def loadExternalProjects():
     """ Instantiates each of the external projects found in the user file. """
     
-    path = os.path.join(os.path.expanduser(devon.appPath), userFileName)
+    path = os.path.join(os.path.expanduser(devon.userPath), userFileName)
     locals = __importProjectLocals(path)
     
     for attr in locals:
@@ -1267,7 +1267,7 @@ def __findProjectPath(path, recurse = True):
 def __importProject(projectPath):
     projectFilePath = os.path.join(projectPath, projectFileName)
     workspaceFilePath = os.path.join(projectPath, workspaceFileName)
-    userFilePath = os.path.join(os.path.expanduser(devon.appPath), userFileName)
+    userFilePath = os.path.join(os.path.expanduser(devon.userPath), userFileName)
     
     # Look for the project in the cache
     project = None

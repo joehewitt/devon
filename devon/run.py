@@ -25,21 +25,6 @@ def wrapArgs(args):
     
     return args
 
-def getPythonPath():
-    if sys.platform == "win32":
-        pythonPath = "c:/program files/python25/python.exe"
-        pythonPathDebug = "c:/program files/python25/python_d.exe"
-    else:
-        pythonPath = sys.executable #"/usr/local/bin/python"
-        pythonPathDebug = sys.executable #"/usr/local/bin/python" # XXXjoe No debug builds for me yet
-
-    # If we're running tests in debug mode, use the debug version of Python, which will
-    # automatically use the debug versions of any extensions
-    if devon.projects.getSession().debug:
-        return pythonPathDebug
-    
-    return pythonPath        
-            
 # **************************************************************************************************
 
 def runProjectExecutable(project, exeName=None, disabledLogs=None, debugger=False, out=None):
@@ -249,15 +234,22 @@ def runCommand(commandPath, args, handler, project, debugger, out):
 # **************************************************************************************************
 
 def initPythonEnvironment(project):
-    prevPyPath = os.getenv("PYTHONPATH") or ""
-    
-    pyPath = prevPyPath
-    
     if sys.platform == "win32":
         delim = ";"
+        prevPyPath = os.getenv("PYTHONPATH") or ""
     else:
         delim = ":"
+
+        # XXXjoe Might need to do this if you want to use the bash PYTHONPATH
+        #prevPyPath = os.popen("source ~/.bash_profile; %s -c \"import sys; print ':'.join(sys.path)\"" % getPythonPath(project)).read().strip()
         
+        # XXXjoe Might need to do this if you want to extend the current PYTHONPATH
+        prevPyPath = os.getenv("PYTHONPATH") or ""
+        
+        prevPyPath = ""
+
+    pyPath = prevPyPath
+    
     for path in [".."] + project.pythonPaths:
         expandedPath = project.expandString(path)
         absPath = os.path.abspath(os.path.join(project.path, expandedPath))
@@ -271,6 +263,23 @@ def initPythonEnvironment(project):
 def restorePythonEnvironment(prevPyPath):
     os.putenv("PYTHONPATH", prevPyPath)
 
+def getPythonPath(project):
+    if hasattr(project.config, "pythonBin"):
+        pythonPath = pythonPathDebug = project.config.pythonBin
+    elif sys.platform == "win32":
+        pythonPath = "c:/program files/python25/python.exe"
+        pythonPathDebug = "c:/program files/python25/python_d.exe"
+    else:
+        pythonPath = sys.executable #"/usr/bin/python"
+        pythonPathDebug = sys.executable #"/usr/bin/python" # XXXjoe No debug builds for me yet
+
+    # If we're running tests in debug mode, use the debug version of Python, which will
+    # automatically use the debug versions of any extensions
+    if devon.projects.getSession().debug:
+        return pythonPathDebug
+    
+    return pythonPath        
+            
 class ExeTestRunner:
     def __init__(self, project):
         self.project = project
@@ -351,11 +360,12 @@ class PythonTestRunner(ExeTestRunner):
         args = wrapArgs(["-c", "import devon.test; devon.test.writeTestCatalog('%s')" % moduleName])
        
         # If the catalog fails to load, uncomment  this to debug it on Mac
-        #command = "gdb --args %s %s %s" % (getPythonPath(), args[0], "\"%s\"" % args[1])
+        #command = "gdb --args %s %s %s" \
+        #    % (getPythonPath(self.project), args[0], "\"%s\"" % args[1])
         #os.system(command)
         
-        print ">>> %s %s" % (getPythonPath(), " ".join(args))
-        reader = devon.log.LogReader(getPythonPath(), args, log=catalogOutputFilePath)
+        print ">>> %s %s" % (getPythonPath(self.project), " ".join(args))
+        reader = devon.log.LogReader(getPythonPath(self.project), args, log=catalogOutputFilePath)
         if not reader.pid:
             return
     
@@ -377,8 +387,8 @@ class PythonTestRunner(ExeTestRunner):
 
         args = wrapArgs(["-c", "import devon.test; devon.test.runTests('%s')" \
             % targetName])
-        print ">>> %s %s" % (getPythonPath(), " ".join(args))
-        reader = devon.log.LogReader(getPythonPath(), args, debugger=debugger)
+        print ">>> %s %s" % (getPythonPath(self.project), " ".join(args))
+        reader = devon.log.LogReader(getPythonPath(self.project), args, debugger=debugger)
         if not reader.pid:
             return
     
@@ -422,7 +432,7 @@ class PythonTestRunner(ExeTestRunner):
         args = wrapArgs(["-c", "import devon.test; devon.test.runExe('%s',%s)" \
             % (exeName, testArgs)])
         
-        runCommand(getPythonPath(), args, handler, self.project, debugger, out)
+        runCommand(getPythonPath(self.project), args, handler, self.project, debugger, out)
         
         return handler.exitSucceeded
                 

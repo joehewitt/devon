@@ -35,8 +35,9 @@ class WebServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
 class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     """Handler that is called on a new thread to handle an HTTP request"""
     
-    __reCommand = re.compile("/([^\s:]+):(.*?)$")
-    __reArgs = re.compile("(?P<name>[^#=&]+)=(?P<value>[^&]*)&?")
+    __rePath = re.compile("/(:[^/]+)/?(.*?)$")
+    __reCommand = re.compile("/(:[^/]+)/([^\s:]+):(.*?)$")
+    __reArgs = re.compile(r"(?P<name>[^#=&]+)=(?P<value>[^&]*)&?")
 
     # Override logging
     def log_message(self, format, *args):
@@ -58,17 +59,12 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.__parseHost()
         self.__parseURL()
 
-        if not self.host or not self.host in sites:
-            self.projects = sites[sites.keys()[0]]
-            pass #return self.serveError(404, "Project not found")
-        else:
-            self.projects = sites[self.host]
-
-        self.project = self.projects[-1]
-        
         renderer = devon.renderers.html.HTMLRenderer()
         self.out = devon.stream.OutStream(self.wfile, renderer)
-
+        
+        if self.projectPath:
+            self.project = devon.projects.load(self.projectPath)
+        
         if not self.command and not self.path:
             self.command = "index"
             self.path = ""
@@ -89,10 +85,9 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def getTargetProject(self):
         if self.path:
             return devon.projects.load(self.path)
+        else:
+            return self.project
 
-        if len(self.projects):
-            return self.projects[0]
-    
     def serveCommand(self, command):
         commandPath = os.path.join(devon.webPath, "%s.py" % command)
         
@@ -114,7 +109,7 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             except:
                 print "Error during %s..." % self.path
                 exc = sys.exc_info()
-                traceback.print_exception(*exc)
+                print traceback.format_exception(*exc)
 
                 self.wfile.write("""<pre class="traceback">""")
                 traceback.print_exception(exc[0], exc[1], exc[2], file=self.wfile)
@@ -218,16 +213,23 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def __parseURL(self):
         source = urllib.unquote(self.path)
         
+        self.projectPath = ""
         self.command = ""
         self.path = ""
         self.args = {}
 
         m = self.__reCommand.match(source)
         if m:
-            self.command = m.groups()[0]
-            source = m.groups()[1]
+            self.projectPath = m.groups()[0].replace(":", "/")
+            self.command = m.groups()[1]
+            source = m.groups()[2]
         else:
-            source = source[1:]
+            m = self.__rePath.match(source)
+            if m:
+                self.projectPath = m.groups()[0].replace(":", "/")
+                source = m.groups()[1]
+            else:
+                source = source[1:]
             
         index = source.find("?")
         if index == -1:
@@ -235,11 +237,10 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.path = ""
             else:
                 self.path = source
-            return
         else:
             self.path = source[0:index]
             source = source[index:]
-                
+
         if source and source[0] == "?":
             m = self.__reArgs.match(source, 1)
             while m:
@@ -314,7 +315,7 @@ class WebProcess:
 def serve():
     global sites, done, messageEvent, server
 
-    signal.signal(signal.SIGINT, terminate)
+    #signal.signal(signal.SIGINT, terminate)
    
     sites = loadSites()
     
@@ -401,7 +402,7 @@ def runProcess(process):
     currentProcess = None
 
 def loadConfigFile(filename):
-    path = os.path.join(os.path.expanduser(devon.appPath), filename)
+    path = os.path.join(os.path.expanduser(devon.userPath), filename)
     if not os.path.isfile(path):
         return None
     

@@ -84,7 +84,7 @@ def launchFile(path, line=-1, col1=-1, col2=-1):
             os.system("explorer %s" % cleanPath)
 
         elif os.path.isfile(cleanPath):
-            scriptPath = os.path.join(devon.binPath, "editMSVC.py")
+            scriptPath = "editMSVC.py"
             command = '%s "%s" %s %s %s' % (scriptPath, cleanPath, line, col1, col2)
             os.system(command)
 

@@ -17,13 +17,13 @@ def process(request):
         caseSensitive = request.args["caseSensitive"]
     
     findCount = 0
+    project = request.getTargetProject()
     
     if "replaceTerms" in request.args:
         request << Header(level=1) << 'Replacing "%s" with "%s"...' \
             % (request.args["terms"], request.args["replaceTerms"]) \
             << Close << Flush
 
-        project = request.getTargetProject()
         if project:        
             findCount += devon.search.searchProject(project, request.args["terms"],
                 request.out, request.args["replaceTerms"], fileTypes, caseSensitive)
@@ -31,7 +31,6 @@ def process(request):
         request << Header(level=1) << 'Searching for "%s"...' % request.args["terms"] \
             << Close << Flush
 
-        project = request.getTargetProject()
         if project:        
             findCount = devon.search.searchProject(project, request.args["terms"],
                 request.out, fileTypes=fileTypes, caseSensitive=caseSensitive)

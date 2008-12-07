@@ -52,7 +52,7 @@ function loadURL(url)
 
 function listenForEvents()
 {
-    loadXMLData("/eventListen:", "", onUserEvent);
+    //loadXMLData("./eventListen:", "", onUserEvent);
 }
 
 function onUserEvent(result)
@@ -128,7 +128,7 @@ function submitFind(replace)
     
     var findBox = document.getElementById("findBox");
     var terms = escape(findBox.value);
-    var url = "/find:" + findPath + "?terms=" + terms;
+    var url = "./find:" + findPath + "?terms=" + terms;
 
     if (replace)
     {
@@ -445,7 +445,7 @@ function loadCatalog(catalogName, tabName, itemCreator)
 {
     showTabBox("loading");
     
-    loadXMLData("/" + catalogName + ":", "", 
+    loadXMLData("./" + catalogName + ":", "", 
         function(data)
         {
             var tabBox = document.getElementById(tabName+"Box");
