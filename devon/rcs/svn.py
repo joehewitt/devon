@@ -1,0 +1,3 @@
+
+def getLatestTimestamp(projectPath):
+    NYI
