@@ -86,12 +86,17 @@ class AppDelegate(NSObject):
         
         if self.initialProjectPath:
             self.openProject(self.initialProjectPath)
-        
+        else:
+            defaults = NSUserDefaults.standardUserDefaults()
+            path = defaults.stringForKey_("devon.LastProject")
+            if path:
+                self.openProject(path)
+            
         self.restorePosition()
         win.makeKeyAndOrderFront_(nil)
         win.makeMainWindow()
-        win.setDelegate_(self)                                        
-    
+        win.setDelegate_(self)
+        
     def application_openFile_(self, app, path):
         name,ext = os.path.splitext(path)
         if ext == ".dev":
@@ -112,6 +117,9 @@ class AppDelegate(NSObject):
 
     def openProject(self, projectPath):
         if self.webView:
+            defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject_forKey_(projectPath, "devon.LastProject")
+
             url = "%s/%s/" % (devonURL, projectPath.replace("/", ":"))
             request = NSURLRequest.requestWithURL_(NSURL.URLWithString_(url))
             self.webView.mainFrame().loadRequest_(request)
@@ -199,4 +207,5 @@ def main():
     app.run()    
 
 if __name__ == '__main__':
+    print "LAUNCHING..."
     main()
