@@ -51,6 +51,17 @@ def load(projectPath = None, recurse = True):
     project = __importProject(localProjectPath)
     return project
 
+def loadUserProject():
+    """ Loads a project that contains only the contents of user.dev.
+
+        This project will not be cached, so every call will reload it."""
+
+    userFilePath = os.path.join(os.path.expanduser(devon.userPath), userFileName)
+
+    project = DevonProject("", time.time())
+    __mergeProject(project, "", userFilePath)
+    return project
+
 def getNearestProjectPath(sourcePath):
     projectPath = __findProjectPath(sourcePath)
     if projectPath:
@@ -67,7 +78,6 @@ def shutdownProjects():
         if isinstance(project, DevonProject):
             project.writeDependencyFile()
         
-# XXXblake Shouldn't be "public"
 def loadExternalProjects():
     """ Instantiates each of the external projects found in the user file. """
     
@@ -1263,7 +1273,7 @@ def __findProjectPath(path, recurse = True):
             break
 
     return None
-
+    
 def __importProject(projectPath):
     projectFilePath = os.path.join(projectPath, projectFileName)
     workspaceFilePath = os.path.join(projectPath, workspaceFileName)
@@ -1301,14 +1311,14 @@ def __importProject(projectPath):
     project = DevonProject(os.path.dirname(projectFilePath), time.time())
     projectCache[projectPath] = project
        
-    # Write the project file
-    __writeProject(project, projectPath, projectFilePath)
+    # Merge the project file
+    __mergeProject(project, projectPath, projectFilePath)
     
-    # Write the local workspace file
-    __writeProject(project, projectPath, workspaceFilePath)
+    # Merge the local workspace file
+    __mergeProject(project, projectPath, workspaceFilePath)
 
-    # Write the user file
-    __writeProject(project, projectPath, userFilePath)
+    # Merge the user file
+    __mergeProject(project, projectPath, userFilePath)
 
     # Find the project that hosts the build directory and cache it on this project
     if project.buildPath:
@@ -1325,11 +1335,11 @@ def __importProject(projectPath):
             project.buildRootPath = buildPath
             project.buildProject = project
 
-    # Write the workspace file for the whole project
+    # Merge the workspace file for the whole project
     if project.buildProject and not project.buildProject == project:
         rootWorkspacePath = os.path.join(os.path.basename(project.buildProject.path), \
             workspaceFileName)
-        __writeProject(project, projectPath, rootWorkspacePath)
+        __mergeProject(project, projectPath, rootWorkspacePath)
     
     # "Post initialize" the project so it has a chance to do additional work
     # after the project file has been read in
@@ -1347,7 +1357,7 @@ def __importProject(projectPath):
     
     return project
 
-def __writeProject(project, projectPath, projectFilePath):
+def __mergeProject(project, projectPath, projectFilePath):
     projectLocals = __importProjectLocals(projectFilePath)
     if projectLocals:
         project.writeBranch(projectLocals)
