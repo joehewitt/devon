@@ -4,8 +4,8 @@ from devon.rcs import getLatestTimestamp
 import devon.projects
 
 reLine = re.compile(r"={3,}")
-reHeader = re.compile(r"(.*?)\s*(@\d{2,})?\s*\n(={3,})\n", re.MULTILINE)
-reHistoryDateField = re.compile(r"(.*?)\s*(@\d{2,})\s*\<(.*?)\>")
+reHeader = re.compile(r"(.*?)\s*(@\d{2,})?\s*(#[^\s]+)*\s*(<(.*?)\>)?\s*\n(={3,})\n", re.MULTILINE)
+reHistoryDateField = re.compile(r"(.*?)\s*<(.*?)\>")
 
 selectedSeparator = "21432142315213521309dsa9hfaspdfsdaio"
 
@@ -18,7 +18,7 @@ def parseBugsFromBugFile(text):
     offset = -1    
     while m:
         offset = m.end()
-        title, bug, separator = m.groups()
+        title, bug, tag, x, timestamp, separator = m.groups()
         bug = bug or ""
         
         m = reHeader.search(text, m.end()+1)
@@ -27,7 +27,7 @@ def parseBugsFromBugFile(text):
         else:
             body = ""
 
-        yield (title, bug, separator, body)
+        yield (title, bug, tag, timestamp, separator, body)
 
 # **************************************************************************************************
 
@@ -59,7 +59,7 @@ def getBugsFixedSinceLastCommit(projectPath):
     bugsPath = getBugsPathForProject(projectPath)
     if not bugsPath:
         return
-        
+    
     commitTime = getLatestTimestamp(projectPath)
     if not commitTime:
         print "%s is not a valid repository"
@@ -69,11 +69,10 @@ def getBugsFixedSinceLastCommit(projectPath):
         print "There is no history for %s" % bugsPath
     
     text = doneFile.read()
-    for title, bug, separator, body in parseBugsFromBugFile(text):
-        m = reHistoryDateField.search(title)
-        fixTime = datetime.datetime.strptime(m.groups()[2], "%a %b %d %H:%M:%S %Y")
+    for title, bug, tag, timestamp, separator, body in parseBugsFromBugFile(text):
+        fixTime = datetime.datetime.strptime(timestamp, "%a %b %d %H:%M:%S %Y")
         if fixTime > commitTime:
-            yield (m.groups()[0], m.groups()[1], commitTime)
+            yield (title, bug, commitTime)
 
 def getBugsFixedSummary(projectPath):
     """ Generates a summary of bugs fixed in a project since the last commit."""
@@ -82,7 +81,7 @@ def getBugsFixedSummary(projectPath):
         projectPath = os.path.dirname(projectPath)
         if os.path.basename(projectPath) in [".git", ".svn"]:
             projectPath = os.path.dirname(projectPath)
-
+    
     files = list(getBugsFixedSinceLastCommit(projectPath))
     changes = []
     if files:
@@ -110,14 +109,15 @@ def insertNew(text, lineNumber=0):
     del lines[lineNumber-2:lineNumber]
 
     text = "\n".join(lines)
-    for title, bug, separator, body in parseBugsFromBugFile(text):
+    for title, bug, tag, timestamp, separator, body in parseBugsFromBugFile(text):
         if title == "NEW":
             newBugNumber = int(bug[1:])
             bug = "@%s" % (newBugNumber + 1)
 
             sys.stdout.write("%s @%s\n%s\n\n\n\n" % (newBugTitle, newBugNumber, separator))
 
-        sys.stdout.write("%s %s\n%s\n%s" % (title, bug, separator, body))
+        sys.stdout.write("%s%s%s\n%s\n%s" \
+            % (title, " %s" % bug if bug else "", " %s" % tag if tag else "", separator, body))
             
 def markBugFixed(text, path="", lineNumber=0):
     """ Marks a bug fixed by moving it to the bug history file."""
@@ -135,11 +135,14 @@ def markBugFixed(text, path="", lineNumber=0):
 
     text = "\n".join(lines)
 
-    for title, bug, separator, body in parseBugsFromBugFile(text):
+    for title, bug, tag, timestamp, separator, body in parseBugsFromBugFile(text):
         if body.find(selectedSeparator) != -1:
             if doneFile:
                 body = body.replace(selectedSeparator+"\n\n", "")
                 timestamp = datetime.datetime.now().ctime()                
-                doneFile.write("%s %s <%s>\n%s\n%s" % (title, bug, timestamp, separator, body))
+                doneFile.write("%s%s%s <%s>\n%s\n%s" \
+                    % (title, " %s" % bug if bug else "", " %s" % tag if tag else "",
+                        timestamp, separator, body))
         else:
-            sys.stdout.write("%s %s\n%s\n%s" % (title, bug, separator, body))
+            sys.stdout.write("%s%s%s\n%s\n%s" \
+                % (title, " %s" % bug if bug else "", " %s" % tag if tag else "", separator, body))
