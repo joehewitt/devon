@@ -4,10 +4,10 @@ from Foundation import *
 from AppKit import *
 from objc import YES, NO, nil, signature
 from WebKit import *
-from Carbon.CarbonEvt import RegisterEventHotKey, GetApplicationEventTarget
-from devon.desktop.mac.virtualKeys import hotKeyToVirtualCodes, hotKeyToPrettyName
+#from Carbon.CarbonEvt import RegisterEventHotKey, GetApplicationEventTarget
+#from devon.desktop.mac.virtualKeys import hotKeyToVirtualCodes, hotKeyToPrettyName
+#from _devon_macsupport import HotKeyAddress
 from devon.web import serve
-from _devon_macsupport import HotKeyAddress
 import os.path, sys, struct, thread
 
 kEventHotKeyPressedSubtype = 6

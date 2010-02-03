@@ -50,7 +50,9 @@ class Compile(devon.makers.Compile):
         # The "no-long-double" option seems to be a mac-only thing
         import sys
         if sys.platform == "darwin":
-            args = "-Wno-long-double "
+            # Causes error on Snow Leopard
+            #args = "-Wno-long-double "
+            args = ""
         else:
             args = ""
 

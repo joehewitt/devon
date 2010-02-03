@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import devon.projects.run
+import devon.projects, devon.run, devon.stream
 import getopt, sys
 
 # **************************************************************************************************
@@ -15,4 +15,4 @@ for name,val in opts:
 
 project = devon.projects.load(projectPath)
 if project:
-    devon.projects.run.runProjectExecutable(project)
+    devon.run.runProjectExecutable(project)

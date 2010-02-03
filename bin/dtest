@@ -1,0 +1,25 @@
+#! /usr/bin/env python
+
+import devon.projects, devon.run, devon.stream
+import getopt, sys, os.path
+
+# **************************************************************************************************
+
+projectPath = "."
+testName = ""
+
+opts, args = getopt.getopt(sys.argv[1:], "p:t:", ["project=", "test="])
+
+for name,val in opts:
+    if name == "-p" or name == "--project":
+        projectPath = val
+    elif name == "-t" or name == "--test":
+        testName = val
+
+projectPath = os.path.abspath(projectPath)
+test = "*".join(projectPath.split("/")) + "/" + testName
+
+project = devon.projects.load(projectPath)
+if project:
+    out = devon.stream.OutStream(sys.stdout)
+    devon.run.runProjectTests(project, test, False, False, out)

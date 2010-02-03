@@ -1,7 +1,7 @@
 #ifndef DEVON_MUTEX_H
 #define DEVON_MUTEX_H
 
-#include <pthread/pthread.h>
+#include <pthread.h>
 
 namespace Devon {
 

@@ -17,7 +17,7 @@ class FlexParse(devon.maker.Preprocessor):
     # installed on Debian, no error was thrown, and compilation proceeded (only to fail when the
     # flex-output file could not be found); try removing flex and cleaning/building JUL on Debian
     def build(self, project, out, source, target):
-        line = "flex -o%s %s" % (target, source)
+        line = "/usr/local/bin/flex -o%s %s" % (target, source)
 
         result = devon.make.executeCommand(project, self, line, out)
         return result
@@ -36,7 +36,7 @@ class BisonParse(devon.maker.Preprocessor):
             return re.sub(reBisonFiles, r".tab.cpp", source)
             
     def build(self, project, out, source, target):
-        line = "bison -v -d -o %s %s" % (target, source)
+        line = "/usr/local/bin/bison -v -d -o %s %s" % (target, source)
 
         result = devon.make.executeCommand(project, self, line, out)
 

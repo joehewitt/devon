@@ -8,6 +8,8 @@ def main(request):
     request.servePage("process.html", globals(), locals())
 
 def process(request):
+    request.out.write(" " * 1024)
+    
     if "target" in request.args:
         target = request.args["target"]
     else:

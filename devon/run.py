@@ -270,8 +270,8 @@ def getPythonPath(project):
         pythonPath = "c:/program files/python25/python.exe"
         pythonPathDebug = "c:/program files/python25/python_d.exe"
     else:
-        pythonPath = sys.executable #"/usr/bin/python"
-        pythonPathDebug = sys.executable #"/usr/bin/python" # XXXjoe No debug builds for me yet
+        pythonPath = "/usr/bin/python"
+        pythonPathDebug = "/usr/bin/python" # XXXjoe No debug builds for me yet
 
     # If we're running tests in debug mode, use the debug version of Python, which will
     # automatically use the debug versions of any extensions

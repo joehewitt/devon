@@ -216,7 +216,10 @@ class Project:
                         os.makedirs(dir)
                     
                     # Finally, create the actual link target to absRealPath
-                    os.symlink(absRealPath, linkPath)
+                    try:
+                        os.symlink(absRealPath, linkPath)
+                    except Exception,exc:
+                        print "ERROR: unable to link", absRealPath, "to", linkPath
                     
                 relIncludePath = relVirtualPath
             else:

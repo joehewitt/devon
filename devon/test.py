@@ -98,7 +98,7 @@ class TestCase:
             return newClass
     
     def __new__(cls, *args):
-        obj = object.__new__( cls, *args)
+        obj = object.__new__(cls, *args)
         for name in dir(obj):
             value = getattr(obj, name)
             if isinstance(value, TestFileFunc): 
@@ -152,6 +152,20 @@ class TestCase:
             logException(log)
             raise TestException("Exception Assertion", Actual=str(actual), Expected=str(expected))
     
+    def log(self, obj):
+      from pprint import pprint
+      pprint(obj)
+
+    def logAttributes(self, object, *names):
+      lines = []
+      for name in names:
+        value = getattr(object, name)
+        line = "%s: %s" % (name, value)
+        lines.append(line)
+        
+      result = "\n".join(lines)
+      print result, "\n"
+      
     def warn(self, message):
         print message
     
