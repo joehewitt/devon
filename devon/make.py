@@ -46,7 +46,7 @@ def make(projectPath=None, action=None, out=None, config=None, resetDeps=True):
 
         project = devon.projects.load(projectPath)
         if not project:
-            raise "%s is not a buildable project " % projectPath
+            raise Exception("%s is not a buildable project " % projectPath)
             
     for child in project.getChildProjects():
         result = make(child.path, action, out, resetDeps=False)
@@ -70,7 +70,7 @@ def make(projectPath=None, action=None, out=None, config=None, resetDeps=True):
         elif action == "clean":
             result = clean(project, out)
         else:
-            raise "The action '%s' is not recognized" % action
+            raise Exception("The action '%s' is not recognized" % action)
         
         print "Total time for %s: %f" % (action, time.time()-c1)
     
@@ -506,7 +506,7 @@ def executeCommand(project, maker, command, out):
     try:        
         child = devon.spawn.Spawn(command)
     except:
-        raise "Unable to launch executable '%s'" % command.split(" ")[0]
+        raise Exception("Unable to launch executable '%s'" % command.split(" ")[0])
         
     text = ""
     while child.isalive():

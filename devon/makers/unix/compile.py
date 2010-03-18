@@ -81,7 +81,7 @@ class Compile(devon.makers.Compile):
         if session.optimize in vals:
             return vals[session.optimize]
         else:
-            return "-g -D_DEBUG"
+            return "-g -DDEBUG -D_DEBUG"
     
 # **************************************************************************************************
 

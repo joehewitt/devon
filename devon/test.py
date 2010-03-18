@@ -480,6 +480,7 @@ def installLogging():
     __builtin__.log = log
 
     import sys
+    sys.stdout1 = sys.stdout
     sys.stdout = log
 
 def getTracebackSource(exc=None):

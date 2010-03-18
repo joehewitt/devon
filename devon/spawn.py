@@ -18,7 +18,7 @@ class SpawnPty:
         try:
             self.pid, self.child_fd = pty.fork()
         except OSError, e:
-            raise "Unable to fork"
+            raise Exception("Unable to fork")
         
         if self.pid == 0:
             self.child_fd = sys.stdout.fileno()

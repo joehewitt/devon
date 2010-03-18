@@ -384,7 +384,7 @@ class ExternalProject(Project):
                   
         if not self.path:
             if sys.platform == "win32":
-                raise "No path specified for external project ", self.name
+                raise Exception("No path specified for external project ", self.name)
             
             self.path = "/usr"
             
@@ -447,7 +447,7 @@ class ExternalProject(Project):
             # Couldn't find the build target, but this is only an error if the developer indicated
             # that he expects one--by specifying build = True, build = <filename>, or a buildPath.
             if (hasattr(self, "build") and self.build) or self.buildPath:
-                raise "Invalid path (%s) for external project %s" % (path, self.path)
+                raise Exception("Invalid path (%s) for external project %s" % (path, self.path))
                 
             return
         
@@ -768,7 +768,7 @@ class DevonProject(Project, ProjectBranch):
                 basePath = os.path.join(basePath, session.buildDir)
             basePath = os.path.join(basePath, relativePath)
         else:
-            raise "Not currently supported/tested"
+            raise Exception("Not currently supported/tested")
         
         if targetPath:
             return os.path.join(basePath, targetPath)
@@ -1040,7 +1040,7 @@ class DevonProject(Project, ProjectBranch):
             self.__updateDependencies()
 
         if not relSrcPath in self.deps:
-            raise "Couldn't retrieve dependency information for ", relSrcPath
+            raise Exception("Couldn't retrieve dependency information for ", relSrcPath)
                 
         for dep in self.deps[relSrcPath]:
 
@@ -1297,8 +1297,8 @@ def __importProject(projectPath):
                     # (I ran into this problem running a Unix VM, where the Unix "hardware clock"
                     # was off and thus invariably fileTime > updateTime and we recursed infinitely.)
                     if fileTime > time.time():
-                        raise "Error: System clock appears to be set inappropriately " \
-                              "(while importing project %s)" % project.path
+                        raise Exception("Error: System clock appears to be set inappropriately " \
+                              "(while importing project %s)" % project.path)
                         
                     project = None
                     break

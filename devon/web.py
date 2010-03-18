@@ -284,7 +284,7 @@ class WebPage:
         while m:
             m2 = self.__reEndCode.search(text, m.end())
             if not m2:
-                raise "Syntax Error: Unclosed code block"
+                raise Exception("Syntax Error: Unclosed code block")
             
             textBlock = text[index:m.start()]
             self.blocks.append(textBlock)
