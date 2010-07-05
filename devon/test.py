@@ -106,8 +106,9 @@ class TestCase:
                     methodName=value.methodName))
         return obj
 
-    def __init__(self, testName=None):
-        pass
+    def __init__(self, testName=None, writer=None):
+        self.testName = testName
+        self.writer = writer
         
     def setUp(self):
         pass
@@ -211,7 +212,7 @@ class TestRunner:
     def runTest(self, targetName=None, fixtureName=None):
         for testName, testType, testStatus in self.getTestNames():
             if not testStatus == "skip" and (not targetName or testName == targetName):
-                self.fixture = self.fixtureClass(testName)
+                self.fixture = self.fixtureClass(testName, self.writer)
 
                 self.writer.cmd.beginTest(name=self.fixtureName)
                 success = self.run(testName)

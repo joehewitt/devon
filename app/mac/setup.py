@@ -56,6 +56,17 @@ plist = dict(
                 "public.filename-extension": ["bugs"],
             },
         ),
+        # XXXjoe Don't mind if I be lazy here and cross-contaminate Devon with Hi
+        dict(
+            UTTypeDescription="Hi",
+            UTTypeConformsTo=["public.text", "public.plain-text"],
+            UTTypeIconFile="Devon.icns",
+            UTTypeIdentifier="org.hilang.hi",
+            UTTypeTagSpecification={
+                "com.apple.ostype": "TEXT",
+                "public.filename-extension": ["hi"],
+            },
+        ),
     ]
 )
 

@@ -28,7 +28,8 @@ class Compile(devon.makers.Compile):
         if len(source) >= 2 and source[-2:] == ".h":
             args += " -x c++-header"
 
-        line = "%s %s -c -o %s %s" % (self.path, args, target, source)
+        compilerPath = project.compilerPath if project.compilerPath else self.path
+        line = "%s %s -c -o %s %s" % (compilerPath, args, target, source)
         #c1 = time.time()
         result = devon.make.executeCommand(project, self, line, out)
         #c2 = time.time()

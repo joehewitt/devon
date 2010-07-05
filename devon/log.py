@@ -60,6 +60,9 @@ class LogWriter:
         self.logFile.write(messageEnd)
         self.logFile.flush()
 
+    def flush(self):
+        self.logFile.flush()
+
 # **************************************************************************************************
 
 class LogReader:

@@ -16,6 +16,7 @@ projectFileName = "project.dev"
 projectDepFileName = ".project.dep"
 workspaceFileName = "workspace.dev"
 userFileName = "user.dev"
+configFileName = "config.dev"
 pchH = kPrecompiledHeader + ".h"
 
 if sys.platform == "win32":
@@ -374,7 +375,6 @@ class Project:
     __includePaths = None
     
 class ExternalProject(Project):
-   
     def __init__(self):
         """ Adds the project's exports to the global export map, and the project
             itself to our global project cache. ExternalProjects are only
@@ -560,7 +560,14 @@ class DevonProject(Project, ProjectBranch):
         
         self.showCommands = False
         self.formatOutput = True
+
+        self.platform = None
+        self.device = None
+        self.sdk = None
+        self.architecture = None
         
+        self.developerPath = None
+        self.compilerPath = None
         self.linkerFlags = defaultLinkerFlags
         self.compilerFlags = defaultCompilerFlags
         self.interfaceFlags = defaultInterfaceFlags
@@ -763,7 +770,7 @@ class DevonProject(Project, ProjectBranch):
         if self.path.find(self.buildProject.path) == 0:
             relativePath = self.path[len(self.buildProject.path)+1:] # +1 for the trailing slash
             session = getSession()           
-            basePath = os.path.join(self.buildRootPath, getPlatformAbbreviation())
+            basePath = os.path.join(self.buildRootPath, self.getPlatformAbbreviation())
             if hasattr(session, "buildDir"):                
                 basePath = os.path.join(basePath, session.buildDir)
             basePath = os.path.join(basePath, relativePath)
@@ -775,6 +782,17 @@ class DevonProject(Project, ProjectBranch):
                       
         return basePath
     
+    def getPlatformAbbreviation(self):
+        names = []
+        if self.platform:
+            names.append(self.platform)
+        if self.sdk:
+            names.append(self.sdk)
+        if names:
+            return "_".join(names)
+        else:
+            return getSystemAbbreviation()
+
     def getDocumentPath(self, docName):
         docName = docName.replace("_", " ")
         return os.path.join(self.path, self.wikiPath, "%s.txt" % docName)
@@ -1040,7 +1058,8 @@ class DevonProject(Project, ProjectBranch):
             self.__updateDependencies()
 
         if not relSrcPath in self.deps:
-            raise Exception("Couldn't retrieve dependency information for ", relSrcPath)
+            self.deps[relSrcPath] = []
+            # raise Exception("Couldn't retrieve dependency information for ", relSrcPath)
                 
         for dep in self.deps[relSrcPath]:
 
@@ -1281,6 +1300,7 @@ def __importProject(projectPath):
     projectFilePath = os.path.join(projectPath, projectFileName)
     workspaceFilePath = os.path.join(projectPath, workspaceFileName)
     userFilePath = os.path.join(os.path.expanduser(devon.userPath), userFileName)
+    configFilePath = os.path.join(os.path.expanduser(devon.userPath), configFileName)
     
     # Look for the project in the cache
     project = None
@@ -1288,7 +1308,7 @@ def __importProject(projectPath):
         project = projectCache[projectPath]
         
         # If any of the files have been changed, invalidate and reload the project
-        for path in (projectFilePath, workspaceFilePath, userFilePath):
+        for path in (projectFilePath, workspaceFilePath, userFilePath, configFilePath):
             if os.path.isfile(path):
                 fileTime = os.path.getmtime(path)
                 if fileTime > project.updateTime:
@@ -1313,6 +1333,9 @@ def __importProject(projectPath):
     
     project = DevonProject(os.path.dirname(projectFilePath), time.time())
     projectCache[projectPath] = project
+
+    # Merge the config file
+    __mergeProject(project, projectPath, configFilePath)
        
     # Merge the project file
     __mergeProject(project, projectPath, projectFilePath)
@@ -1340,8 +1363,7 @@ def __importProject(projectPath):
 
     # Merge the workspace file for the whole project
     if project.buildProject and not project.buildProject == project:
-        rootWorkspacePath = os.path.join(os.path.basename(project.buildProject.path), \
-            workspaceFileName)
+        rootWorkspacePath = os.path.join(project.buildRootPath, '..', workspaceFileName)
         __mergeProject(project, projectPath, rootWorkspacePath)
     
     # "Post initialize" the project so it has a chance to do additional work
@@ -1361,11 +1383,11 @@ def __importProject(projectPath):
     return project
 
 def __mergeProject(project, projectPath, projectFilePath):
-    projectLocals = __importProjectLocals(projectFilePath)
+    projectLocals = __importProjectLocals(projectFilePath, project)
     if projectLocals:
         project.writeBranch(projectLocals)
         
-def __importProjectLocals(projectFilePath):
+def __importProjectLocals(projectFilePath, project=None):
     if not os.path.isfile(projectFilePath):
         return {}
 
@@ -1374,6 +1396,8 @@ def __importProjectLocals(projectFilePath):
 
     projectLocals = {}
     projectLocals.update(__getProjectBuiltin())
+    if project:
+        projectLocals.update(vars(project))
     projectLocals["debug"] = getSession().debug
 
     execfile(projectFilePath, {}, projectLocals)
@@ -1598,7 +1622,7 @@ def getSourcesIn(path, includeDirs = False, includeTests = False, absPaths = Fal
             
     return sources
 
-def getPlatformAbbreviation():
+def getSystemAbbreviation():
     import sys
     if sys.platform == "win32":
         return "win"
