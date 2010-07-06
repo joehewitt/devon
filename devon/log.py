@@ -23,6 +23,7 @@ class LogWriter:
             log = logFilePath
 
         self.logFile = file(log, "a")
+        self.fileno = self.logFile.fileno
         self.cmd = Commander(self)
         
     def __lshift__(self, text):
@@ -98,9 +99,9 @@ class LogReader:
         self.buffer = ""
         
         for text in self.readLines():
-            # print text
             self.__processText(text, handler)
-        
+            handler.flush()
+            
         handler.close()
         
     def readLines(self):
@@ -113,7 +114,7 @@ class LogReader:
             if t:
                 yield t
     
-            time.sleep(0.5)
+            time.sleep(0.2)
     
         t = self.__pollFile(f)
         if t:
@@ -122,10 +123,9 @@ class LogReader:
         f.close()
 
     def __processText(self, text, handler):
-    
         """ Parses the process output as an xml stream. If the handler has a function corresponding
             to an output node, it will be called with the appropriate arguments. """
-            
+        
         self.buffer += text    
     
         startIndex = self.buffer.find(messageBegin)            

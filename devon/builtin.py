@@ -36,7 +36,7 @@ from devon.projects import defaultCompilerFlags, defaultLinkerFlags
 system = sys.platform
 platform = None
 sdk = None
-architecture = None
+arch = None
 
 # **************************************************************************************************
 

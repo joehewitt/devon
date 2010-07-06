@@ -244,7 +244,7 @@ class TestRunner:
             self.writer.cmd.beginTest(name="%s" % name)
 
             for childTest, fileName, lineNo in test():
-                self.writer.cmd.beginTest(name="%s:%s" % (name, lineNo))
+                self.writer.cmd.beginTest(name="%s" % (name))
                 self.setUp()            
 
                 success = self.callTest(childTest, fileName, lineNo)

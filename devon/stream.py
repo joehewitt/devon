@@ -25,10 +25,10 @@ class OutStream:
         return self
 
     def __str__(self):
-        if self.out.getvalue:
+        if hasattr(self.out, "getvalue") and self.out.getvalue:
             return self.out.getvalue()
         else:
-            return "<OutStream>"
+            return "<OutStream %s>" % self.out
     
     def write(self, data):
         if data == tags.Flush:

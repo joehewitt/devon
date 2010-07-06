@@ -564,7 +564,7 @@ class DevonProject(Project, ProjectBranch):
         self.platform = None
         self.device = None
         self.sdk = None
-        self.architecture = None
+        self.arch = None
         
         self.developerPath = None
         self.compilerPath = None

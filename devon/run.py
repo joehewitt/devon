@@ -449,6 +449,9 @@ class LogCatalogPrintHandler:
     def close(self):
         pass
 
+    def flush(self):
+        pass
+    
     def declareProject(self, name):
         self.out << '{name: "%s", type: "project"},' % (name) << Flush
 
@@ -470,6 +473,9 @@ class TestCatalogPrintHandler:
     def close(self):
         pass
 
+    def flush(self):
+        pass
+    
     def declareTest(self, name, testType=0, testStatus="", id=None):
         self.testStackCount += 1
 
@@ -554,6 +560,9 @@ class TestPrintHandler:
     def close(self):
         self.checkEndText()
 
+    def flush(self):
+        self.out << Flush
+            
     def writeText(self, text):
         self.out.write(text)
         
@@ -564,9 +573,11 @@ class TestPrintHandler:
         if self.inBlock or self.inText:
             self.out << escapeHTML(text) << Flush
         else:
-            self.checkTestHeader()            
-            self.out << CodeBlock("log") << escapeHTML(text) << Flush
-            self.inText = True
+            self.checkTestHeader()
+            
+            # XXXjoe We have to close the block here or the browser won't render the <pre>
+            self.out << CodeBlock("log") << escapeHTML(text) << Close << Flush
+            # self.inText = True
 
     # **********************************************************************************************
     # Commands

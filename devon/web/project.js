@@ -585,11 +585,35 @@ function setRunningTestItem(name)
         setState(runningItem, "running");
 }
 
+function addClass(elt, className) {
+    var classes = elt.className.split(" ");
+    classes.push(className);
+    elt.className = classes.join(" ");
+}
+
+function removeClass(elt, className) {
+    var classes = elt.className.split(" ");
+    classes.remove(className);
+    elt.className = classes.join(" ");
+}
+
+function removeClassWithPrefix(elt, prefix) {
+    var classes = elt.className.split(" ");
+    for (var cls in classes) {
+        if (cls.indexOf(prefix) == 0) {
+            classes.remove(cls);
+        }
+    }
+    elt.className = classes.join(" ");
+}
+
 function setTestStatus(name, status)
 {
     var rowElt = document.getElementById("test-" + name);
-    if (rowElt)
-        rowElt.setAttribute("testStatus", status);
+    if (rowElt) {
+        removeClassWithPrefix(rowElt, 'testStatus-')
+        addClass(rowElt, 'testStatus-' + status);
+    }
 }
 
 function getTestItemName(item)

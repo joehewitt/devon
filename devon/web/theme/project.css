@@ -364,21 +364,21 @@ body {
 
 /**************************************************************************************************/
 
-.treeItem[testStatus="skip"] .treeItemLink {
+.treeItem.testStatus-skip .treeItemLink {
     background-image: url(skipIcon-sm.png);
 }
 
-.treeItem[testStatus="passed"] .treeItemLink,
-.treeItem[testStatus="allPassed"] .treeItemLink {
+.treeItem.testStatus-passed .treeItemLink,
+.treeItem.testStatus-allPassed .treeItemLink {
     background-image: url(successIcon-sm.png);
 }
 
-.treeItem[testStatus="failed"] .treeItemLink,
-.treeItem[testStatus="someFailed"] .treeItemLink {
+.treeItem.testStatus-failed .treeItemLink,
+.treeItem.testStatus-someFailed .treeItemLink {
     background-image: url(failureIcon-sm.png);
 }
 
-.treeItem[testStatus="exception"] .treeItemLink {
+.treeItem.testStatus-exception .treeItemLink {
     background-image: url(exceptionIcon-sm.png);
 }
 
