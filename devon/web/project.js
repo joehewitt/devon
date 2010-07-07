@@ -576,13 +576,21 @@ function createTestItem(data, parent, parentId)
 
 function setRunningTestItem(name)
 {
-    if (runningItem)
-        removeState(runningItem, "running");
-    
-    runningItem = name ? document.getElementById("test-" + name) : null;
-
-    if (runningItem)
-        setState(runningItem, "running");
+    if (name) {
+        var item = document.getElementById("test-" + name);
+        if (item) {
+            if (runningItem)
+                removeState(runningItem, "running");
+            runningItem = item;
+            setState(item, "running");
+        }
+        
+    } else {
+        if (runningItem) {
+            removeState(runningItem, "running");
+            runningItem = null;
+        }
+    }
 }
 
 function addClass(elt, className) {

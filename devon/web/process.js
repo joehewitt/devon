@@ -76,7 +76,8 @@ function endTest()
 
     testStack.pop();
 
-    parent.setRunningTestItem(null);
+    var fullName = getCurrentTestName();
+    parent.setRunningTestItem(fullName);
 }
 
 // *************************************************************************************************
