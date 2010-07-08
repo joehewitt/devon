@@ -9,6 +9,7 @@ from devon.makers.ctags import CTags
 from devon.makers.mozilla import FirefoxExtension, XPIDLCompile
 from devon.makers.python import PythonModules, LinkPythonModule
 from devon.makers.flexbison import FlexParse, BisonParse
+from devon.makers.configuremake import ConfigureMake
 from devon.projects import ExternalProject
 
 if sys.platform == "darwin":
