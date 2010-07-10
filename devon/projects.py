@@ -560,6 +560,7 @@ class DevonProject(Project, ProjectBranch):
         
         self.showCommands = False
         self.formatOutput = True
+        self.tracer = True
 
         self.platform = None
         self.device = None

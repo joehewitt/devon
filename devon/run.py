@@ -431,8 +431,13 @@ class PythonTestRunner(ExeTestRunner):
 
         args = wrapArgs(["-c", "import devon.test; devon.test.runExe('%s',%s)" \
             % (exeName, testArgs)])
-        
+
+        wd = os.getcwd()
+        os.chdir(os.path.dirname(self.project.path))
+
         runCommand(getPythonPath(self.project), args, handler, self.project, debugger, out)
+
+        os.chdir(wd)
         
         return handler.exitSucceeded
                 

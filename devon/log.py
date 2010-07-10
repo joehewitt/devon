@@ -86,10 +86,10 @@ class LogReader:
             debugArgs = ["--args", command] + args
             command = "gdb --args %s %s" % (command, " ".join(args))
 
-            self.pid = os.spawnl(os.P_NOWAIT, gdbCommand, gdbCommand, *debugArgs)
+            self.pid = os.spawnlp(os.P_NOWAIT, gdbCommand, gdbCommand, *debugArgs)
         else:
             # Spawn a process which we expect to write output to DevonLog.txt
-            self.pid = os.spawnl(os.P_NOWAIT, command, command, *args)
+            self.pid = os.spawnlp(os.P_NOWAIT, command, command, *args)
         
         if self.pid:
             self.deadEvent = threading.Event()
