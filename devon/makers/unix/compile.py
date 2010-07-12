@@ -79,10 +79,10 @@ class Compile(devon.makers.Compile):
     def getOptimizeFlag(self, project):
         session = devon.projects.getSession()
         vals = {"size": "-Os", "speed": "-O3", "full": "-O3"}
-        if session.optimize in vals:
-            return vals[session.optimize]
+        if project.optimize in vals:
+            return vals[project.optimize]
         else:
-            return "-g -DDEBUG -D_DEBUG"
+            return "-O0 -gdwarf-2 -DDEBUG -D_DEBUG"
     
 # **************************************************************************************************
 

@@ -31,7 +31,7 @@ class CompileTestRunner(Compile):
         import devon
         
         session = devon.projects.getSession()
-        if not session.debug:
+        if not project.debug:
             return []
 
         sources += project.getTestSources()
@@ -65,7 +65,7 @@ class LinkStaticLib(Link):
 
 class LinkTestRunner(LinkExecutable):
     def getTarget(self, project):
-        if devon.projects.getSession().debug:
+        if project.debug:
             return "%s_tests" % project.name
         
     def getDependencies(self, project):

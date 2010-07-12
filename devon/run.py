@@ -275,7 +275,7 @@ def getPythonPath(project):
 
     # If we're running tests in debug mode, use the debug version of Python, which will
     # automatically use the debug versions of any extensions
-    if devon.projects.getSession().debug:
+    if project.debug:
         return pythonPathDebug
     
     return pythonPath        

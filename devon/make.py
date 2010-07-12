@@ -21,16 +21,9 @@ def make(projectPath=None, action=None, out=None, config=None, resetDeps=True):
     """
     global cancelBuild, allDeps
     cancelBuild = False
-
+    
+    # XXXjoe Don't think we need sessions anymore but I'll leave it for now
     session = devon.projects.getSession()    
-    if config == "release":
-        session.debug = False
-        session.optimize = "speed"
-        session.buildDir = "release"
-    else:
-        session.debug = True
-        session.optimize = None
-        session.buildDir = "debug"
 
     result = 0
 
@@ -110,7 +103,7 @@ def build(project, out):
                 return result
                         
     session = devon.projects.getSession()    
-    if not session.debug:
+    if not project.debug:
         if project.distInstallPaths:
             installPaths(project, project.distInstallPaths, out)
          

@@ -547,11 +547,6 @@ class DevonProject(Project, ProjectBranch):
         else:
             self.pch = None
 
-        self.debug = True
-        self.debugCommand = None
-        self.debugArgs = None
-        self.debugPath = None
-        
         self.testExcludes = []
         self.testRunner = None
 
@@ -629,6 +624,17 @@ class DevonProject(Project, ProjectBranch):
         
         pass
      
+    @property
+    def debug(self):
+        return not self.optimize or self.optimize == 'debug'
+    
+    @property
+    def buildDir(self):
+        if self.debug:
+            return 'debug'
+        else:
+            return 'release'
+
     def __post_init__(self):
         
         """ Called after the project file is reflected onto the Project instance. """
@@ -772,9 +778,7 @@ class DevonProject(Project, ProjectBranch):
             relativePath = self.path[len(self.buildProject.path)+1:] # +1 for the trailing slash
             session = getSession()           
             basePath = os.path.join(self.buildRootPath, self.getPlatformAbbreviation())
-            if hasattr(session, "buildDir"):                
-                basePath = os.path.join(basePath, session.buildDir)
-            basePath = os.path.join(basePath, relativePath)
+            basePath = os.path.join(basePath, self.buildDir, relativePath)
         else:
             raise Exception("Not currently supported/tested")
         
@@ -815,7 +819,7 @@ class DevonProject(Project, ProjectBranch):
             project and [] for the top-level foopy project. """
                             
         excludes = self.exclude
-        if not getSession().debug:
+        if not self.debug:
             excludes += self.getAbsolutePaths(self.debugSources)
         return getSourcesIn(self.path, includeDirs, includeTests, absPaths, excludes, changedAfter, types)    
        
@@ -1264,10 +1268,8 @@ class Session:
 def getSession():
     thread = threading.currentThread()
     if not hasattr(thread, "session"):
+        # XXXjoe Sessions are dead, I think
         thread.session = Session()
-        thread.session.debug = True
-        thread.session.optimize = None
-        thread.session.buildDir = "debug"
         
     return thread.session
     
@@ -1323,12 +1325,7 @@ def __importProject(projectPath):
                         
                     project = None
                     break
-    
-        # If we have the wrong project configuration loaded, invalidate and reload
-        if project and ((project.debug and not getSession().debug) \
-                or (not project.debug and getSession().debug)):
-            project = None
-            
+                
     if project:
         return project
     
@@ -1399,7 +1396,6 @@ def __importProjectLocals(projectFilePath, project=None):
     projectLocals.update(__getProjectBuiltin())
     if project:
         projectLocals.update(vars(project))
-    projectLocals["debug"] = getSession().debug
 
     execfile(projectFilePath, {}, projectLocals)
     

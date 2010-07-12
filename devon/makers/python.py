@@ -85,7 +85,7 @@ class LinkPythonModule(link.LinkDynamicLib):
 # have a _d suffix.
     if sys.platform == "win32":
         def getTarget(self, project):
-            if devon.projects.getSession().debug:
+            if project.debug:
                 suffix = "_d"
             else:
                 suffix = ""
