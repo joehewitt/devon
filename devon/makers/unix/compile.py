@@ -8,7 +8,7 @@ reCFiles = re.compile(r"\.(cpp|c|cxx|m|mm)$")
 # **************************************************************************************************
 
 class Compile(devon.makers.Compile):
-    path = "g++"
+    path = "gcc"
     parser = devon.parsers.gcc.GCCParser()
     
     def getSourceTarget(self, project, source):

@@ -10,7 +10,7 @@ defaultLibs = ["stdc++"]
 # **************************************************************************************************
 
 class Link(devon.makers.Link):
-    path = "g++"
+    path = "gcc"
     
     def build(self, project, out, sources, target):
         if os.path.basename(target) in project.neverLink:
@@ -87,7 +87,7 @@ class LinkStaticLib(Link, devon.makers.LinkStaticLib):
         
     def getBaseArgs(self, project, sources, target):
         if not sys.platform == "darwin":
-            return "--mode=link g++ -static -o %s" % target
+            return "--mode=link gcc -static -o %s" % target
         else:
             return "-static -o %s" % target
 
