@@ -7,6 +7,7 @@ import time, glob, os.path, re, sys, types, threading
 projectBuiltin = None
 projectCache = {} # path   -> project
 exportMap = {}    # export -> projects
+exportReverseMap = {}
 projectMap = {}   # name   -> project
 
 kDefaultWikiPath = "docs"
@@ -135,6 +136,10 @@ class Project:
     def getIncludePaths(self):
         if self.__includePaths is None:
             self.__includePaths = self.getExportPaths()
+        if hasattr(self, 'dependencies'):
+            for projectName in self.dependencies:
+                if projectName in exportReverseMap:
+                    self.__includePaths += exportReverseMap[projectName]
         return self.__includePaths[:]
          
     def getSourceDependencies(self, source, deep, checkedDeps):
@@ -536,6 +541,8 @@ class DevonProject(Project, ProjectBranch):
         
         self.frameworkPaths = []
         self.exports = {}
+        self.includes = []
+        self.dependencies = []
         
         self.optimize = "debug"
         self.warningLevel = 4
@@ -1432,12 +1439,17 @@ def populateExportMap(project):
 
     # XXXblake On Unix, where external project paths tend to be "usr", this adds all sorts of junk
     # to the map
+    
+    if project.name:
+        exports = project.getExportPaths(deep=False, absPaths=True)
+        exportReverseMap[project.name] = exports
+    
     for export in project.getExportPaths(deep=True, absPaths=False):
         if not export in exportMap:
             exportMap[export] = []
         # print "Adding ", export, " to project ", project.path XXXblake This reveals some bugs
         exportMap[export].append(project)
-             
+        
 def getIncludes(source):
 
     """ Returns a list of relative, concrete include paths used by the specified (absolute) source. """
