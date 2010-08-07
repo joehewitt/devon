@@ -571,6 +571,8 @@ class DevonProject(Project, ProjectBranch):
         
         self.developerPath = None
         self.compilerPath = None
+        self.linkerPath = None
+        self.ranlibPath = None
         self.linkerFlags = defaultLinkerFlags
         self.compilerFlags = defaultCompilerFlags
         self.interfaceFlags = defaultInterfaceFlags

@@ -20,7 +20,8 @@ class Link(devon.makers.Link):
         args = self.getSourceArgs(project, sources, target)
         args += " " + self.getBaseArgs(project, sources, target)            
 
-        line = "%s %s" % (self.path, args)
+        linkerPath = project.linkerPath if project.linkerPath else self.path
+        line = "%s %s" % (linkerPath, args)
         return devon.make.executeCommand(project, self, line, out)
 
     def getSourceArgs(self, project, sources, target):
@@ -97,11 +98,13 @@ class LinkStaticLib(Link, devon.makers.LinkStaticLib):
         if os.path.basename(target) in project.neverLink:
             return 0
         
-        line1 = "ar cru %s" % target
+        linkerPath = project.linkerPath if project.linkerPath else 'ar'
+        line1 = "%s cru %s" % (linkerPath, target)
         line1 += " " + self.getSourceArgs(project, sources, target)
         devon.make.executeCommand(project, self, line1, out)
 
-        line2 = "ranlib %s" % target
+        ranlibPath = project.ranlibPath if project.ranlibPath else 'ranlib'
+        line2 = "%s %s" % (ranlibPath, target)
         devon.make.executeCommand(project, self, line2, out)
         #args = self.getBaseArgs(project, sources, target)            
         #args += " " + self.getSourceArgs(project, sources, target)
